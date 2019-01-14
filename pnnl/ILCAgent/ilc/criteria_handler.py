@@ -95,7 +95,7 @@ def parse_sympy(data, condition=False):
     """
 
     def clean_text(text, rep={" ": ""}):
-        rep = dict((re.escape(k), v) for k, v in rep.iteritems())
+        rep = dict((re.escape(k), v) for k, v in list(rep.items()))
         pattern = re.compile("|".join(rep.keys()))
         new_key = pattern.sub(lambda m: rep[re.escape(m.group(0))], text)
         return new_key
@@ -135,7 +135,7 @@ class CriteriaCluster(object):
         except KeyError:
             mappers = {}
 
-        for device_name, device_criteria in cluster_config.items():
+        for device_name, device_criteria in list(cluster_config.items()):
             self.criteria[device_name] = DeviceCriteria(device_criteria)
 
     def get_all_evaluations(self):
@@ -194,7 +194,7 @@ class DeviceCriteria(object):
             self.criteria[device_id] = criteria
 
     def ingest_data(self, time_stamp, data):
-        for criteria in self.criteria.values():
+        for criteria in list(self.criteria.values()):
             criteria.ingest_data(time_stamp, data)
 
     def criteria_status(self, token, status):
@@ -207,7 +207,7 @@ class DeviceCriteria(object):
 class Criteria(object):
     def __init__(self, criteria):
         self.criteria = {}
-        for name, criterion in criteria.items():
+        for name, criterion in list(criteria.items()):
             self.add(name, criterion)
 
     def add(self, name, criterion):
@@ -218,17 +218,17 @@ class Criteria(object):
 
     def evaluate(self):
         results = {}
-        for name, criterion in self.criteria.items():
+        for name, criterion in list(self.criteria.items()):
             result = criterion.evaluate_criterion()
             results[name] = result
         return results
 
     def ingest_data(self, time_stamp, data):
-        for criterion in self.criteria.values():
+        for criterion in list(self.criteria.values()):
             criterion.ingest_data(time_stamp, data)
 
     def criteria_status(self, status):
-        for criterion in self.criteria.values():
+        for criterion in list(self.criteria.values()):
             criterion.criteria_status(status)
 
 
@@ -248,7 +248,8 @@ class BaseCriterion(object):
         :param value:
         :return:
         """
-        if not isinstance(value, (int, float, long, numbers.Float, numbers.Integer)):
+        if not isinstance(value, (int, float, int, numbers.Float,
+                                  numbers.Integer)):
             if isinstance(value, str):
                 try:
                     value = float(value)
@@ -333,9 +334,9 @@ class FormulaCriterion(BaseCriterion):
         if isinstance(operation_args, list):
             operation_args = {arg: "always" for arg in operation_args}
 
-        operation_points = operation_args.keys()
-        self.operation_parms = operation_args.values()
-        print operation_args.keys(), operation_args.values()
+        operation_points = list(operation_args.keys())
+        self.operation_parms = list(operation_args.values())
+        print(operation_args.keys(), operation_args.values())
         self.operation_args = parse_sympy(operation_points)
         self.points = symbols(self.operation_args)
         self.expr = parse_expr(parse_sympy(operation))

@@ -82,14 +82,14 @@ def parse_sympy(data, condition=False):
     """
 
     def clean_text(text, rep={" ": ""}):
-        rep = dict((re.escape(k), v) for k, v in rep.iteritems())
+        rep = dict((re.escape(k), v) for k, v in list(rep.iteritems()))
         pattern = re.compile("|".join(rep.keys()))
         new_key = pattern.sub(lambda m: rep[re.escape(m.group(0))], text)
         return new_key
 
     if isinstance(data, dict):
         return_data = {}
-        for key, value in data.items():
+        for key, value in list(data.items()):
             new_key = clean_text(key)
             return_data[new_key] = value
 
@@ -117,7 +117,7 @@ class CurtailmentCluster(object):
 
     def get_all_on_devices(self):
         results = []
-        for device_info, device in self.devices.items():
+        for device_info, device in list(self.devices.items()):
             for device_id in device.get_on_commands():
                 results.append((device_info[0], device_id, device_info[1]))
         return results
@@ -133,17 +133,17 @@ class CurtailmentContainer(object):
         self.devices.update(cluster.devices)
 
     def get_device_name_list(self):
-        return self.devices.keys()
+        return list(self.devices.keys())
 
     def get_device(self, device_name):
         return self.devices[device_name]
 
     def reset_curtail_count(self):
-        for device in self.devices.itervalues():
+        for device in list(self.devices.values()):
             device.reset_curtail_count()
 
     def reset_currently_curtailed(self):
-        for device in self.devices.itervalues():
+        for device in list(self.devices.values()):
             for device_id in self.command_status:
                 device.reset_currently_curtailed(device_id)
 
@@ -167,7 +167,7 @@ class CurtailmentManager(object):
         self.curtail_count = {}
         self.default_curtailment = {}
 
-        for device_id, curtail_config in device_config.items():
+        for device_id, curtail_config in list(device_config.items()):
             default_curtailment = curtail_config.pop('curtail')
             conditional_curtailment = curtail_config.pop('conditional_curtail', [])
 
@@ -229,7 +229,7 @@ class CurtailmentManager(object):
         self.currently_curtailed[device_id] = False
 
     def get_on_commands(self):
-        return [command for command, state in self.command_status.iteritems() if state]
+        return [command for command, state in self.command_status.items() if state]
 
 
 class CurtailmentSetting(object):

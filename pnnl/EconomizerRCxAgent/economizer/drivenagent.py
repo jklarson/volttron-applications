@@ -101,7 +101,7 @@ def driven_agent(config_path, **kwargs):
 
     device_config = config["device"]["unit"]
     multiple_devices = isinstance(device_config, dict)
-    command_devices = device_config.keys()
+    command_devices = list(device_config.keys())
     device_topic_dict = {}
     device_topic_list = []
     subdevices_list = []
@@ -279,7 +279,7 @@ def driven_agent(config_path, **kwargs):
 
             if self._should_run_now() or missing_but_running:
                 field_names = {}
-                for point, data in self.device_values.items():
+                for point, data in self.device_values:
                     field_names[point] = data
                 if not converter.initialized and conversion_map is not None:
                     converter.setup_conversion_map(map_names, field_names)
@@ -334,7 +334,7 @@ def driven_agent(config_path, **kwargs):
             :rtype: Results object \\volttron.platform.agent.driven
             """
             to_publish = defaultdict(dict)
-            for app, analysis_table in results.table_output.items():
+            for app, analysis_table in list(results.table_output.items()):
                 try:
                     name_timestamp = app.split("&")
                     timestamp = name_timestamp[1]
@@ -344,7 +344,7 @@ def driven_agent(config_path, **kwargs):
 
                 headers = {headers_mod.CONTENT_TYPE: headers_mod.CONTENT_TYPE.JSON, headers_mod.DATE: timestamp, }
                 for entry in analysis_table:
-                    for point, result in entry.items():
+                    for point, result in list(entry.items()):
                         for device in command_devices:
                             publish_topic = "/".join([publish_base, device, point])
                             analysis_topic = topics.RECORD(subtopic=publish_topic)
@@ -367,7 +367,7 @@ def driven_agent(config_path, **kwargs):
             :returns: Same as results param.
             :rtype: Results object \\volttron.platform.agent.driven"""
             tag = 0
-            for key, value in results.table_output.items():
+            for key, value in list(results.table_output.items()):
                 for row in value:
                     name_timestamp = key.split("&")
                     _name = name_timestamp[0]
@@ -379,7 +379,7 @@ def driven_agent(config_path, **kwargs):
                     self.file_creation_set.update([file_name])
                     with open(file_name, "a+") as file_to_write:
                         row.update({"Timestamp": timestamp})
-                        _keys = row.keys()
+                        _keys = list(row.keys())
                         file_output = csv.DictWriter(file_to_write, _keys)
                         if not self._header_written:
                             file_output.writeheader()

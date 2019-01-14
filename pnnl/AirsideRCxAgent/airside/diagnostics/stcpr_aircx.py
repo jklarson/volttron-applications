@@ -178,7 +178,8 @@ class DuctStaticAIRCx(object):
         dmpr_low_avg = mean(self.ls_dmpr_low_avg)
         dmpr_high_avg = mean(self.ls_dmpr_high_avg)
         low_sf_condition = True if sum(self.low_sf_condition)/len(self.low_sf_condition) > 0.5 else False
-        thresholds = zip(self.zn_high_dmpr_thr.items(), self.zn_low_dmpr_thr.items())
+        thresholds = zip(list(self.zn_high_dmpr_thr.items()),
+                         list(self.zn_low_dmpr_thr.items()))
         diagnostic_msg = {}
 
         for (key, zn_high_dmpr_thr), (key2, zn_low_dmpr_thr) in thresholds:
@@ -232,7 +233,7 @@ class DuctStaticAIRCx(object):
         dmpr_high_avg = mean(self.hs_dmpr_high_avg)
         diagnostic_msg = {}
 
-        for key, hdzn_dmpr_thr in self.hdzn_dmpr_thr.items():
+        for key, hdzn_dmpr_thr in list(self.hdzn_dmpr_thr.items()):
             if dmpr_high_avg <= hdzn_dmpr_thr:
                 if high_sf_condition is not None and high_sf_condition:
                     msg = "{} - duct static pressure too high. Supply fan at minimum.".format(key)

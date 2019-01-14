@@ -125,7 +125,7 @@ def TimestampFromDatetime(dt):
     return dt and int(calendar.timegm(dt.utctimetuple()))
 
 def DatetimeFromValue(ts):
-    if isinstance(ts, (int, long)):
+    if isinstance(ts, int):
         return datetime.utcfromtimestamp(ts)
     elif isinstance(ts, float):
         return datetime.utcfromtimestamp(ts)
@@ -137,11 +137,11 @@ def DatetimeFromValue(ts):
 class Connection(object):
     def __init__(self, **kwargs):
         params = {key.upper(): val for key, val in
-                  _connection_defaults.iteritems()}
-        params.update({key.upper(): val for key, val in kwargs.iteritems()})
+                  _connection_defaults.items()}
+        params.update({key.upper(): val for key, val in kwargs.items()})
         connectstring = ';'.join(['{}={{{}}}'.format(
                 str(k).replace('=', '=='), str(v).replace('}', '}}'))
-                for k, v in params.iteritems()])
+                for k, v in params.items()])
         self.connection = pyodbc.connect(connectstring)
 
     def get_points(self):
@@ -202,7 +202,7 @@ def PushAgent(config_path, **kwargs):
             config = utils.load_config(config_path)
             self._connection_params = {
                     key.upper(): val for key, val in
-                    config.get('connection', {}).iteritems()}
+                    config.get('connection', {}).items()}
             for key in ['server', 'database', 'uid', 'pwd']:
                 if key in kwargs:
                     self._connection_params[key.upper()] = kwargs.pop(key)

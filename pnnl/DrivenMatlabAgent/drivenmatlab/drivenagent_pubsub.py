@@ -100,7 +100,7 @@ def driven_agent(config_path, **kwargs):
     # this implies a sub-device listing
     multiple_dev = isinstance(conf['device']['unit'], dict)
     if multiple_dev:
-        units = conf['device']['unit'].keys()
+        units = list(conf['device']['unit'].keys())
     try:
 
         for item in units:
@@ -209,7 +209,7 @@ def driven_agent(config_path, **kwargs):
             subdevice_id = [dev for dev in self._master_subdevices if dev == device_or_subdevice]
             if not device_id and not subdevice_id:
                 return
-            if isinstance(device_or_subdevice, unicode):
+            if isinstance(device_or_subdevice, str):
                 device_or_subdevice = (
                     device_or_subdevice.decode('utf-8').encode('ascii'))
 
@@ -270,16 +270,16 @@ def driven_agent(config_path, **kwargs):
             results to a file or database.
             '''
             _log.debug('Processing Results!')
-            for key, value in results.commands.iteritems():
+            for key, value in results.commands.items():
                 _log.debug("COMMAND: {}->{}".format(key, value))
             for value in results.log_messages:
                 _log.debug("LOG: {}".format(value))
-            for key, value in results.table_output.iteritems():
+            for key, value in results.table_output.items():
                 _log.debug("TABLE: {}->{}".format(key, value))
             if output_file is not None:
                 _log.debug('Writing Output File!')
                 if len(results.table_output.keys()) > 0:
-                    for _, v in results.table_output.items():
+                    for v in results.table_output.values():
                         fname = output_file  # +"-"+k+".csv"
                         for r in v:
                             with open(fname, 'a+') as f:
@@ -312,9 +312,9 @@ def driven_agent(config_path, **kwargs):
                     headers_mod.CONTENT_TYPE: headers_mod.CONTENT_TYPE.JSON,
                     headers_mod.DATE: str(self.received_input_datetime),
                 }
-                for _, v in results.table_output.items():
+                for v in list(results.table_output.values()):
                     for r in v:
-                        for key, value in r.iteritems():
+                        for key, value in list(r.items()):
                             if isinstance(value, bool):
                                 value = int(value)
                             for item in units:
@@ -340,7 +340,7 @@ def driven_agent(config_path, **kwargs):
             if results.commands and mode:
                 self.commands = results.commands
                 if self.keys is None:
-                    self.keys = self.commands.keys()
+                    self.keys = list(self.commands.keys())
                 _log.debug("we have commands")
                 #self.schedule_task()
                 self.command_equip()

@@ -72,10 +72,10 @@ from gevent.core import callback
 from volttron.platform.messaging import headers as headers_mod
 from volttron.platform.vip.agent import Agent, PubSub, Core
 from volttron.platform.agent import utils
-import common
+from . import common
 
 #FNCS inports
-import fncs
+from . import fncs
 
 utils.setup_logging()
 _log = logging.getLogger(__name__)
@@ -161,7 +161,7 @@ class FNCS_VOLTTRON_Bridge(Agent):
         '''
         now = datetime.utcnow().isoformat(' ') + 'Z'
         nowdate = datetime.utcnow()
-        print "publish_heartbeat", now
+        print("publish_heartbeat", now)
         timeDiff = nowdate - self.simStart
         valMap = defaultdict(dict)
         metaMap = defaultdict(dict)
@@ -174,9 +174,9 @@ class FNCS_VOLTTRON_Bridge(Agent):
             self.core.stop()
         elif timeDiff.seconds >= 1:
             self.simtime+=self.heartbeat_period*self.heartbeat_multiplier
-            print "fncs.time_request(",self.simtime,") request"
+            print("fncs.time_request(",self.simtime,") request")
             self.simtime = fncs.time_request(self.simtime)
-            print "fncs.time_request() response", self.simtime
+            print("fncs.time_request() response", self.simtime)
             #Grab Subscriptions from FNCS to publish to Volttron message bus
             subKeys = fncs.get_events()
             if len(subKeys) > 0:

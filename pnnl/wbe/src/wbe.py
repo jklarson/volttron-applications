@@ -52,10 +52,10 @@
 
 import os
 import sqlite3
-import ConfigParser
+import configparser
 
-import wu_helper
-import sqlite_helper
+from . import wu_helper
+from . import sqlite_helper
 
 
 class Wbe:
@@ -67,7 +67,7 @@ class Wbe:
         - To add HourOfWeek OR Weekday to configuration file later
     """
     def __init__(self, config_file='../config.ini'):
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
         config.read(config_file)
         self.object = config.get('WBE', 'object')
         self.variable = config.get('WBE', 'variable')

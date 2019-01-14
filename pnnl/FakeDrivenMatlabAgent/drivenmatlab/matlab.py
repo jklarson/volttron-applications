@@ -85,9 +85,9 @@ class Application(AbstractDrivenAgent):
         
         if 'commands' in matlab_result:
             commands = matlab_result['commands']
-            for device, point_value_dict in commands.items():
+            for device, point_value_dict in list(commands.items()):
                 for point, value in point_value_dict:
-                    result.command(point, value, device); 
+                    result.command(point, value, device)
         
 #             if 'logs' in matlab_result:
 #                 logs = matlab_result['logs']

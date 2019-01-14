@@ -261,7 +261,7 @@ def AFDDAgent(config_path, **kwargs):
         @matching.match_exact('weather/response/temperature/temp_f')
         def weather_response(self, topic, headers, message, match):
             data = float(jsonapi.loads(message[0]))
-            print data
+            print(data)
             self.weather_data_queue.notify_all(data)
         
 

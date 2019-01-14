@@ -224,7 +224,8 @@ class SchedResetAIRCx(object):
         fan_status_on = [(fan[0].hour, fan[1]) for fan in self.fan_status_array if int(fan[1]) == 1]
         fanstat = [(fan[0].hour, fan[1]) for fan in self.fan_status_array]
         hourly_counter = []
-        thresholds = zip(self.unocc_time_thr.items(), self.unocc_stcpr_thr.items())
+        thresholds = zip(list(self.unocc_time_thr.items()),
+                         list(self.unocc_stcpr_thr.items()))
         diagnostic_msg = {}
 
         for counter in range(24):

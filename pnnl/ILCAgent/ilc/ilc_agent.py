@@ -335,7 +335,8 @@ class ILCAgent(Agent):
         current_time_str = format_timestamp(now)
         parsed_data = parse_sympy(data)
 
-        subdevices = self.curtailment.get_device(device_name).command_status.keys()
+        subdevices = list(self.curtailment.get_device(
+            device_name).command_status.keys())
         for subdevice in subdevices:
             status = self.curtailment.get_device(device_name).currently_curtailed[subdevice]
             _log.debug("Device: {} -- subdevice: {} -- status: {}".format(device_name, subdevice, status))
@@ -353,7 +354,8 @@ class ILCAgent(Agent):
                 "min_compatible_version": "3.0",
                 "MessageType": "Control"
             }
-            subdevices = self.curtailment.get_device(device_name).command_status.keys()
+            subdevices = list(self.curtailment.get_device(
+                device_name).command_status.keys())
 
             for subdevice in subdevices:
                 currently_curtailed = self.curtailment.get_device(device_name).currently_curtailed[subdevice]
@@ -386,7 +388,7 @@ class ILCAgent(Agent):
         demand_goal = float(target_info["target"])
         task_id = target_info["id"]
         _log.debug("TARGET - id: {} - start: {} - goal: {}".format(target_info["id"], start_time, demand_goal))
-        for key, value in self.tasks.items():
+        for key, value in list(self.tasks.items()):
             if start_time == value["end"]:
                 start_time += td(seconds=15)
             if (start_time < value["end"] and end_time > value["start"]) or value["start"] <= start_time <= value["end"]:
@@ -417,7 +419,7 @@ class ILCAgent(Agent):
         """
         if self.tasks:
             current_time = current_time.replace(tzinfo=self.tz)
-            for key, value in self.tasks.items():
+            for key, value in list(self.tasks.items()):
                 if value["start"] <= current_time < value["end"]:
                     self.demand_limit = value["target"]
                 elif current_time >= value["end"]:
@@ -490,7 +492,7 @@ class ILCAgent(Agent):
         power_sort.sort(reverse=True)
         average_power = 0
 
-        for n in xrange(len(self.bldg_power)):
+        for n in range(len(self.bldg_power)):
             average_power += power_sort[n][1] * smoothing_constant * (1.0 - smoothing_constant) ** n
 
         norm_list = [float(i[1]) for i in self.bldg_power]
@@ -1008,7 +1010,8 @@ class ILCAgent(Agent):
         :return:
         """
         try:
-            device_tokens = self.curtailment.devices[device_name].command_status.keys()
+            device_tokens = list(self.curtailment.devices[
+                device_name].command_status.keys())
             for subdevice in device_tokens:
                 curtail = self.curtailment.get_device(device_name).get_curtailment(subdevice)
                 curtail_pt = curtail["point"]
@@ -1073,7 +1076,7 @@ class ILCAgent(Agent):
         task_id = target_info["id"]
 
         _log.debug("TARGET: Simulation running.")
-        for key, value in self.tasks.items():
+        for key, value in list(self.tasks.items()):
             if (start_time < value["end"] and end_time > value["start"]) or (value["start"] <= start_time <= value["end"]):
                 self.tasks.pop(key)
 

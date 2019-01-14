@@ -104,7 +104,7 @@ def driven_agent(config_path, **kwargs):
     analysis = deepcopy(campus_building)
     analysis.update(analysis_dict)
     device_config = config['device']['unit']
-    command_devices = device_config.keys()
+    command_devices = list(device_config.keys())
     device_topic_dict = {}
     device_topic_list = []
     subdevices_list = []

@@ -282,7 +282,7 @@ class Application(AbstractDrivenAgent):
         device_dict = {}
         dx_result = Results()
 
-        for point, value in points.items():
+        for point, value in list(points.items()):
             point_device = [name.lower() for name in point.split("&")]
             if point_device[0] not in device_dict:
                 device_dict[point_device[0]] = [(point_device[1], value)]

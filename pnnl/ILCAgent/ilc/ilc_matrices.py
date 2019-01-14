@@ -67,6 +67,7 @@ import logging
 import math
 from volttron.platform.agent import utils
 from collections import defaultdict
+from functools import reduce
 
 utils.setup_logging()
 _log = logging.getLogger(__name__)
@@ -192,7 +193,7 @@ def build_score(_matrix, weight, priority):
     :param priority:
     :return:
     """
-    input_keys, input_values = _matrix.keys(), _matrix.values()
+    input_keys, input_values = list(_matrix.keys()), list(_matrix.values())
     scores = []
 
     for input_array in input_values:
@@ -200,7 +201,7 @@ def build_score(_matrix, weight, priority):
 
         scores.append(criteria_sum*priority)
 
-    return zip(scores, input_keys)
+    return list(zip(scores, input_keys))
 
 
 def input_matrix(builder, criteria_labels):
@@ -212,7 +213,7 @@ def input_matrix(builder, criteria_labels):
     """
     sum_mat = defaultdict(float)
     inp_mat = {}
-    label_check = builder.values()[-1].keys()
+    label_check = list(builder.values()[-1].keys())
     if set(label_check) != set(criteria_labels):
         raise Exception('Input criteria and data criteria do not match.')
     for device_data in builder.values():

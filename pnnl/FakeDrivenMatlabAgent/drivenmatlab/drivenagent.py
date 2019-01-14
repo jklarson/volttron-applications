@@ -103,7 +103,7 @@ def driven_agent(config_path, **kwargs):
     analysis = deepcopy(campus_building)
     analysis.update(analysis_dict)
     device_config = config['device']['unit']
-    command_devices = device_config.keys()
+    command_devices = list(device_config.keys())
     device_topic_dict = {}
     device_topic_list = []
     subdevices_list = []
@@ -294,7 +294,7 @@ def driven_agent(config_path, **kwargs):
                 return results
 
             _log.debug('Processing Results!')
-            for device, point_value_dict in results.devices.items():
+            for device, point_value_dict in list(results.devices.items()):
                 make_actuator_request(point_value_dict, results)
             make_actuator_request(results.commands, results)
 
@@ -323,7 +323,7 @@ def driven_agent(config_path, **kwargs):
                 headers_mod.CONTENT_TYPE: headers_mod.CONTENT_TYPE.JSON,
                 headers_mod.DATE: str(self.received_input_datetime),
             }
-            for app, analysis_table in results.table_output.items():
+            for app, analysis_table in list(results.table_output.items()):
                 try:
                     name_timestamp = app.split('&')
                     _name = name_timestamp[0]
@@ -336,7 +336,7 @@ def driven_agent(config_path, **kwargs):
                     headers_mod.DATE: timestamp,
                 }
                 for entry in analysis_table:
-                    for key, value in entry.items():
+                    for key, value in list(entry.items()):
                         for _device in command_devices:
                             analysis['unit'] = _device
                             analysis_topic = topics.ANALYSIS_VALUE(point=key, **analysis)
@@ -364,7 +364,7 @@ def driven_agent(config_path, **kwargs):
             :type results: Results object \\volttron.platform.agent.driven
             :returns: Same as results param. 
             :rtype: Results object \\volttron.platform.agent.driven"""
-            for key, value in results.table_output.items():
+            for key, value in list(results.table_output.items()):
                 name_timestamp = key.split('&')
                 _name = name_timestamp[0]
                 timestamp = name_timestamp[1]
@@ -375,7 +375,7 @@ def driven_agent(config_path, **kwargs):
                 for row in value:
                     with open(file_name, 'a+') as file_to_write:
                         row.update({'Timestamp': timestamp})
-                        _keys = row.keys()
+                        _keys = list(row.keys())
                         file_output = csv.DictWriter(file_to_write, _keys)
                         if not self._header_written:
                             file_output.writeheader()
@@ -453,7 +453,7 @@ def driven_agent(config_path, **kwargs):
                         _log.warning("Failed to set {} to {}: {}".format(point_path, new_value, str(ex)))
                         continue
 
-            for device, point_value_dict in results.devices.items():
+            for device, point_value_dict in list(results.devices.items()):
                 make_actuator_set(device, point_value_dict)
 
             for device in command_devices:

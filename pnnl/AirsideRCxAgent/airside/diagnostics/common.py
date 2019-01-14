@@ -124,7 +124,7 @@ def setpoint_control_check(set_point_array, point_array, setpoint_deviation_thre
     """
     avg_set_point = None
     diagnostic_msg = {}
-    for key, threshold in setpoint_deviation_threshold.items():
+    for key, threshold in list(setpoint_deviation_threshold.items()):
         if set_point_array:
             avg_set_point = sum(set_point_array)/len(set_point_array)
             zipper = (set_point_array, point_array)

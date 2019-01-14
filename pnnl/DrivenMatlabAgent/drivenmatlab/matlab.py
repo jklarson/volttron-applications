@@ -80,7 +80,7 @@ class Application(AbstractDrivenAgent):
         self.data_socket = context.socket(zmq.PAIR)
         self.data_socket.connect(data_url)
         
-        print "Checking for config request from Matlab"
+        print("Checking for config request from Matlab")
         event = self.config_socket.poll(self.recv_timeout)
         if event > 0 and self.config_socket.recv_string() == "config":
             try:
@@ -123,7 +123,7 @@ class Application(AbstractDrivenAgent):
                 commands = matlab_result['commands']
                 for device, point_value_dict in commands.items():
                     for point, value in point_value_dict:
-                        result.command(point, value, device);
+                        result.command(point, value, device)
                     
             if 'logs' in matlab_result:
                 logs = matlab_result['logs']

@@ -62,7 +62,7 @@ from volttron.platform.messaging import headers as headers_mod, topics
 from volttron.platform.vip.agent import Agent, PubSub, Core, RPC
 from volttron.platform.agent import utils
 import datetime
-import common
+from . import common
 
 utils.setup_logging()
 _log = logging.getLogger(__name__)

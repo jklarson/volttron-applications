@@ -234,7 +234,7 @@ class PGnEAgent(Agent):
         T_coeffs = coeffs["T_fit"]
         Q_coeffs = coeffs["Q_fit"]
         headers = {'Date': format_timestamp(get_aware_utc_now())}
-        for idx in xrange(0,5):
+        for idx in range(0,5):
             T_topic = topic + "T_c" + str(idx)
             Q_topic = topic + "Q_c" + str(idx)
             self.vip.pubsub.publish(

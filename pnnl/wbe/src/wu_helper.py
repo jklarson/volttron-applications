@@ -1,11 +1,11 @@
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 
 def get_forecast_temp_10day():
     retRows = []
     url = "http://api.wunderground.com/api/e136063baaea177f/hourly10day/q/WA/Richland.json"
-    f = urllib2.urlopen(url)
+    f = urllib.request.urlopen(url)
     json_string = f.read()
     parsed_json = json.loads(json_string)
     records = parsed_json["hourly_forecast"]

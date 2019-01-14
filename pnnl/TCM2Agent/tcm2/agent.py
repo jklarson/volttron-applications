@@ -172,7 +172,7 @@ class TCMAgent(Agent):
                                   unit=self.unit)
 
         headers = {'Date': format_timestamp(get_aware_utc_now())}
-        for idx in xrange(0,6):
+        for idx in range(0,6):
             FP_topic = topic + "FanPower_c" + str(idx)
             self.vip.pubsub.publish(
                 'pubsub', FP_topic, headers, coeffs.params[idx])

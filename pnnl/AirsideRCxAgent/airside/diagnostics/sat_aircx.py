@@ -191,7 +191,8 @@ class SupplyTempAIRCx(object):
         """
         avg_zones_rht = mean(self.percent_rht)*100.0
         rht_avg = mean(self.rht_array)
-        thresholds = zip(self.rht_valve_thr.items(), self.percent_rht_thr.items())
+        thresholds = zip(list(self.rht_valve_thr.items()),
+                         list(self.percent_rht_thr.items()))
         diagnostic_msg = {}
 
         for (key, rht_valve_thr), (key2, percent_rht_thr) in thresholds:
@@ -238,7 +239,8 @@ class SupplyTempAIRCx(object):
         """
         avg_zones_rht = mean(self.percent_rht)*100.0
         avg_zone_dmpr_data = mean(self.percent_dmpr) * 100.0
-        thresholds = zip(self.percent_dmpr_thr.items(), self.percent_rht_thr.items())
+        thresholds = zip(list(self.percent_dmpr_thr.items()),
+                         list(self.percent_rht_thr.items()))
         diagnostic_msg = {}
 
         for (key, percent_dmpr_thr), (key2, percent_rht_thr) in thresholds:

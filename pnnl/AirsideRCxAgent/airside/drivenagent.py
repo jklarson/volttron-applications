@@ -101,7 +101,7 @@ def driven_agent(config_path, **kwargs):
 
     device_config = config["device"]["unit"]
     multiple_devices = isinstance(device_config, dict)
-    command_devices = device_config.keys()
+    command_devices = list(device_config.keys())
     device_topic_dict = {}
     device_topic_list = []
     subdevices_list = []

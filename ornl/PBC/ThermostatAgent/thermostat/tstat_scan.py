@@ -5,13 +5,13 @@
 import math
 import time
 import datetime
-import sht21
-import relays
-from settings import settings
+from . import sht21
+from . import relays
+from .settings import settings
 
 class tstat():
 
-        temp_sensor = sht21.SHT21(1)
+	temp_sensor = sht21.SHT21(1)
 
 	TempRange = 2.0
 	MAX_PRIORITY = 10
@@ -23,11 +23,11 @@ class tstat():
 	COOL2 = -2
 	IDLE = 0
 
-        COOLING1_RELAY = 2
-        COOLING2_RELAY = 3
-        HEATING1_RELAY = 4
-        HEATING2_RELAY = 5
-        FAN_RELAY = 1
+	COOLING1_RELAY = 2
+	COOLING2_RELAY = 3
+	HEATING1_RELAY = 4
+	HEATING2_RELAY = 5
+	FAN_RELAY = 1
 
 	HEAT_MODE = 2
 	COOL_MODE = 1
@@ -53,8 +53,8 @@ class tstat():
 		self.set_mode(self.IDLE)
 
 	def read_temp(self):
-                temp = float(self.temp_sensor.read_temperature())
-                return temp
+		temp = float(self.temp_sensor.read_temperature())
+		return temp
 
 	def set_setpoint(self,setpoint):
 		if setpoint >80:
@@ -66,20 +66,20 @@ class tstat():
 		self.setPoint=setpoint
 		
 
-        def read_setpoint(self):
+	def read_setpoint(self):
 		return self.setPoint
 
-        def heat_cool_request(self):
+	def heat_cool_request(self):
         
-                #only activate if 0.1 degree(F) over setpoint
-                if self.temp > self.read_setpoint()+self.deadband:
-                        return self.COOL_MODE
+		#only activate if 0.1 degree(F) over setpoint
+		if self.temp > self.read_setpoint()+self.deadband:
+				return self.COOL_MODE
 
-                elif self.temp < self.read_setpoint()-self.deadband:
-                        return self.HEAT_MODE
+		elif self.temp < self.read_setpoint()-self.deadband:
+				return self.HEAT_MODE
 
-                else:
-                        return self.OFF_MODE
+		else:
+				return self.OFF_MODE
 
 
 	def get_mode(self):
@@ -88,10 +88,10 @@ class tstat():
         ##Read Mode
 	def read_mode(self):
 		#Read the relays
-                c1 = relays.relayRead(self.COOLING1_RELAY)
-                c2 = relays.relayRead(self.COOLING2_RELAY)
-                h1 = relays.relayRead(self.HEATING1_RELAY)
-                h2 = relays.relayRead(self.HEATING2_RELAY)
+		c1 = relays.relayRead(self.COOLING1_RELAY)
+		c2 = relays.relayRead(self.COOLING2_RELAY)
+		h1 = relays.relayRead(self.HEATING1_RELAY)
+		h2 = relays.relayRead(self.HEATING2_RELAY)
 	
 		if (h1 == 0 and c1 == 0 and h2 == 0 and c2 == 0):
 			mode = self.IDLE
@@ -137,9 +137,9 @@ class tstat():
 		return can_switch
 
 
-        def set_mode(self,hvac_mode):
+	def set_mode(self,hvac_mode):
 
-                print("SETTING MODE " + str(hvac_mode))
+		print("SETTING MODE " + str(hvac_mode))
 
 		heat1_relay = self.HEATING1_RELAY
 		heat2_relay = self.HEATING2_RELAY
@@ -244,27 +244,27 @@ class tstat():
 		switch_abil = self.switchable()
 		poll[4] = switch_abil
 
-                #Check to see if hvac unit has been turned off
-                #if(settings.heat_cool == 'OFF'):
-                        #self.set_mode(self.IDLE)
+		#Check to see if hvac unit has been turned off
+		#if(settings.heat_cool == 'OFF'):
+				#self.set_mode(self.IDLE)
 
-                ##Add FAN ONLY check option
-                #elif(settings.heat_cool == 'FAN ONLY'):
-                        #self.set_mode(self.IDLE)
-                        #time.sleep(.25)
-                #       relays.relaySet(self.FAN_RELAY)
+		##Add FAN ONLY check option
+		#elif(settings.heat_cool == 'FAN ONLY'):
+				#self.set_mode(self.IDLE)
+				#time.sleep(.25)
+		#       relays.relaySet(self.FAN_RELAY)
                         
 		return poll
 
 
 
-        def activate(self):
-                try:
-                        tempData = self.read_temp()
-                except IOError:
-                        print("Failed to read temp sensor")
-                        time.sleep(0.35)
-                        self.activate()
+	def activate(self):
+		try:
+				tempData = self.read_temp()
+		except IOError:
+				print("Failed to read temp sensor")
+				time.sleep(0.35)
+				self.activate()
 
 		setPoint = self.read_setpoint()
 		current_mode = self.read_mode()
@@ -295,7 +295,7 @@ class tstat():
 			self.last_switch_time = time.time()
 			self.set_mode(hvac_mode)
 
-        def shutdown(self):
+	def shutdown(self):
 
 		if(self.switchable() == 0):
 			return
@@ -306,12 +306,12 @@ class tstat():
 
 
 if __name__ == "__main__":
-        try:
-                tmp = tstat(1)
-                poll = tmp.poll_request()
-                print(str(poll))
+	try:
+		tmp = tstat(1)
+		poll = tmp.poll_request()
+		print(str(poll))
 
-                print(tmp.read_temp())
+		print(tmp.read_temp())
 
-        except IOError, e:
-                print e
+	except IOError as e:
+			print(e)

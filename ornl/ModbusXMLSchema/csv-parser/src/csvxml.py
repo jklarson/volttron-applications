@@ -78,8 +78,8 @@ def main():
         with open(xmlFileName, 'w') as xmlfile:
             xmlfile.write(xmlstr)
     except:
-        print ("*** Error encountered: ", sys.exc_info()[0])
-        print ("*** The xml string should still be saved to " + xmlFileName)
+        print(("*** Error encountered: ", sys.exc_info()[0]))
+        print("*** The xml string should still be saved to " + xmlFileName)
         with open(xmlFileName, 'w') as xmlfile:
             xmlfile.write(xmlstr)
 
@@ -235,9 +235,9 @@ def csv_to_xml(deviceini, csvFileName, isInteractive):
 
     for searchRow in searchRows:
         matchList = []
-        print ( "\n")
-        print( 'Function: ', searchRow[0] )
-        print( 'Synonyms: ', ','.join(searchRow[1:]) )
+        print( "\n")
+        print(( 'Function: ', searchRow[0] ))
+        print(( 'Synonyms: ', ','.join(searchRow[1:]) ))
         xml += '<function>'
 
         # create exact match list first
@@ -298,13 +298,13 @@ def csv_to_xml(deviceini, csvFileName, isInteractive):
             
                 
             while True:
-                print( '\n  For function: ', searchRow[0] )
-                print( '  With synonyms: ', ','.join(searchRow[1:]) )
+                print(( '\n  For function: ', searchRow[0] ))
+                print(( '  With synonyms: ', ','.join(searchRow[1:]))
                 if len(exactMatchList) == 0:
                     print( "  There were no exact matches. Fuzzy matches only." )
                 else:
                     print( "  Exact matches ordered by fuzzy similarity." )
-                entered = input("  Enter the matching row number from matches above: ")                
+                entered = eval(input("  Enter the matching row number from matches above: "))           
                 try:
                     entered = int(entered)
                     if entered in validIndices:

@@ -4,7 +4,7 @@ import sys
 import gevent
 import traceback
 import time
-from settings import settings
+from .settings import settings
 from volttron.platform.vip.agent import Agent, PubSub, Core,RPC,Unreachable
 from volttron.platform.agent import utils
 from volttron.platform.keystore import KeyStore

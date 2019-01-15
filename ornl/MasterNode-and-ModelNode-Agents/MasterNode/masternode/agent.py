@@ -68,7 +68,7 @@ class MasterNode(Agent):
 
         self.Nsim = 144
 
-        print "DIRECTORY :::", os.path.abspath(os.curdir)
+        print("DIRECTORY :::", os.path.abspath(os.curdir))
         base_dir = p.abspath(p.dirname(__file__))
         numpy_file = p.join(base_dir,self.Config['data_file'])
         u_file = p.join(base_dir,self.Config['u_file'])
@@ -138,8 +138,8 @@ class MasterNode(Agent):
         for j in range(0, self.Bld):
             self.X[j, i] = self.Ad*self.X_T[j,i-1] + self.Bd*self.U[j,i-1]  #% ODE - state eqn
             self.X_T[j,i] = self.X[j,i] + self.Cd*self.d1[i-1]  #% ODE in state space format - measurement eq
-            print i, j
-            print self.X.shape, self.X_T.shape, len(self.xref)
+            print(i, j)
+            print((self.X.shape, self.X_T.shape, len(self.xref)))
             if self.X_T[j,i] >= self.xref[j] + 1:
                 self.U[j,i] = self.AgentStatesEnum.COOLING_STAGE_ONE # % decision for bldg j
             elif self.X_T[j,i] <= self.xref[j] - 0.5:

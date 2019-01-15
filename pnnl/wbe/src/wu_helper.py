@@ -21,4 +21,4 @@ def get_forecast_temp_10day():
 if __name__ == '__main__':
     retRows = get_forecast_temp_10day()
     for row in retRows:
-        print("Results %s: %s" % (row[0], row[1]))
+        print(("Results %s: %s" % (row[0], row[1])))

@@ -192,7 +192,7 @@ class Thermostat_Agent(Agent):
         @PubSub.subscribe('pubsub','local')
         def pull_local_control(self, peer, sender, bus, topic, headers, message):
                 if headers["Zone"]==self.zonenum:
-			print("LOCAL CONTROL SAYS: " + str(message))
+			print(("LOCAL CONTROL SAYS: " + str(message)))
                         if message=='cool1' and self.user_mode =='COOL':
 				self.local_status = 1
 				if self.local_control:
@@ -214,7 +214,7 @@ class Thermostat_Agent(Agent):
 	###Methods used for interfacing with web server
         @RPC.export
         def set_local_control(self,status):
-		print("Setting local control to "+str(status))
+		print(("Setting local control to "+str(status)))
 		self.usr_local_control = int(status)
                 self.local_control = self.usr_local_control
 

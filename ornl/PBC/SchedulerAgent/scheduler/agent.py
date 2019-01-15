@@ -1,12 +1,12 @@
 import datetime
 import logging
 import sys
-import control
-import Tstat6
 import gevent
-import settings
 import traceback
 import time
+from . import settings
+from . import Tstat6
+from . import control
 from datetime import datetime
 from volttron.platform.vip.agent import Agent, PubSub, Core, RPC, Unreachable
 from volttron.platform.agent import utils

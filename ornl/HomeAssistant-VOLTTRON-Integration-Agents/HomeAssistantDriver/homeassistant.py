@@ -46,7 +46,7 @@ import sys
 import json
 import requests
 from csv import DictReader
-from StringIO import StringIO
+from io import StringIO
 
 from volttron.platform.vip.agent import Agent, Core, PubSub
 from volttron.platform.agent import utils

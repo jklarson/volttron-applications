@@ -1,5 +1,5 @@
-import Tstat6
 import time
+from . import Tstat6
 
 global MAX_PRIORITY
 MAX_PRIORITY = 10
@@ -138,7 +138,7 @@ def run_scheduler(equip,N):
 		#to do
 		#Add in time since last report
 		for tstat in equip:
-			 print('i= ' + str(tstat.devID) + ",p=" + str(tstat.priority) + ",a=" + str(tstat.is_on) + ",s=" + str(tstat.can_switch) + '\n')
+			 print(('i= ' + str(tstat.devID) + ",p=" + str(tstat.priority) + ",a=" + str(tstat.is_on) + ",s=" + str(tstat.can_switch) + '\n'))
 	
 
 	#Check assumptions about scheduling invariant

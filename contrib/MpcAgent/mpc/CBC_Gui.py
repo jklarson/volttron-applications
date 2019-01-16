@@ -1,6 +1,6 @@
-from Tkinter import *
+from tkinter import *
 import threading
-import python_building
+from . import python_building
 
 class ZoneGui:
 	def __init__(self,zone,building,root):
@@ -45,15 +45,16 @@ class ZoneGui:
 	def select_fan(self,e):
 		mode = self.list_fan.get(self.list_fan.curselection()[0])
 		if mode == "auto":
-			print self.zone,"fan->auto"
+			print(self.zone,"fan->auto")
 			self.building.set_fan_mode(self.zone,0)
 		else:
-			print self.zone,"fan->on"
+			print(self.zone,"fan->on")
 			self.building.set_fan_mode(self.zone,1)
-	def select_heat_cool(self,e):
+
+	def select_heat_cool(self, e):
 		heat = self.list_cool.get(self.list_heat.curselection()[0])
 		cool = self.list_heat.get(self.list_cool.curselection()[0])
-		print self.zone,"cool->"+str(cool)+",heat->"+str(heat)
+		print(self.zone,"cool->"+str(cool)+",heat->"+str(heat))
 		self.building.set_deadbands(self.zone,float(cool),float(heat))
 
 # User interface for the MPC agent application

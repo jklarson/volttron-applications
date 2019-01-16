@@ -6,7 +6,6 @@ NREL
 
 """
 
-from __future__ import absolute_import
 from datetime import datetime
 import logging
 import sys
@@ -37,33 +36,44 @@ class SCHouseAgent(Agent):
         # Demonstrate accessing a value from the config file
         _log.info(self.config['message'])
         self._agent_id = self.config['agentid']
-        self.cea_ctl = ['emergency','normal','shed']
+        self.cea_ctl = ['emergency', 'normal', 'shed']
 
     @Core.receiver('onstart')
     def begining(self, sender, **kwargs):
         '''on start'''
-        start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
-        timestamp=time.strptime(start_time,"%Y-%m-%d %H:%M:%S")
-        end_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.mktime(timestamp) + 600))
+        start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        timestamp = time.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+        end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(
+            time.mktime(timestamp) + 600))
         msgs = [
                     ["esif/spl/THERMOSTAT_1", #First time slot.
                      str(start_time),     #Start of time slot.
                      str(end_time)]   #End of time slot.
                 ]
-        print json.dumps(self.vip.rpc.call('platform.actuator','request_new_schedule','rpc_ctl',"007",'HIGH',msgs).get())
+        print(json.dumps(self.vip.rpc.call('platform.actuator',
+                                           'request_new_schedule', 'rpc_ctl',
+                                           "007", 'HIGH', msgs).get()))
 
     @Core.receiver('onstop')
     def ending(self, sender, **kwargs):
         ''' at the end'''
-        self.vip.rpc.call('platform.actuator','request_cancel_schedule','rpc_ctl',"007")
+        self.vip.rpc.call('platform.actuator', 'request_cancel_schedule',
+                          'rpc_ctl', "007")
 
     @Core.periodic(settings.HEARTBEAT_PERIOD)
     def example_controls(self):
             ''' Function that sends example controls peridically '''
 
-            input_led_point = random.randrange(0,2,1)
-            input_setpoint = random.randrange(75,85,1)
-            input_heat_pgm_week= {"0": [360, 90, 480, 90, 1080, 90, 1320, 90], "1": [360, 90, 480, 90, 1080, 90, 1320, 90], "2": [360, 70, 480, 70, 1080, 70, 1320, 70], "3": [360, 70, 480, 70, 1080, 70, 1320, 70], "4": [360, 70, 480, 70, 1080, 70, 1320, 70], "5": [360, 70, 480, 70, 1080, 70, 1320, 70], "6": [360, 70, 480, 70, 1080, 70, 1320, 70]}
+            input_led_point = random.randrange(0, 2, 1)
+            input_setpoint = random.randrange(75, 85, 1)
+            input_heat_pgm_week= {"0": [360, 90, 480, 90, 1080, 90, 1320, 90],
+                                  "1": [360, 90, 480, 90, 1080, 90, 1320, 90],
+                                  "2": [360, 70, 480, 70, 1080, 70, 1320, 70],
+                                  "3": [360, 70, 480, 70, 1080, 70, 1320, 70],
+                                  "4": [360, 70, 480, 70, 1080, 70, 1320, 70],
+                                  "5": [360, 70, 480, 70, 1080, 70, 1320, 70],
+                                  "6": [360, 70, 480, 70, 1080, 70, 1320, 70]
+                                  }
             input_cool_pgm_week= {
                     "0": [360, 90, 480, 90, 1080, 90, 1320, 90],
                     "1": [360, 90, 480, 90, 1080, 90, 1320, 90],
@@ -75,7 +85,7 @@ class SCHouseAgent(Agent):
                 }
             input_cool_pgm_day= "360,90,480,90,1080,90,1320,90"
             input_heat_pgm_day= "360,90,480,90,1080,90,1320,90"
-            input_tstat_mode = random.randrange(0,2,1)
+            input_tstat_mode = random.randrange(0, 2, 1)
 
             # Example control signals to get and set values, revert points to default states
             # print self.vip.rpc.call('platform.actuator','set_point','rpc_ctl',"esif/spl/THERMOSTAT_1/energy_led",input_led_point).get()

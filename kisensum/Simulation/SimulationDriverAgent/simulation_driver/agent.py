@@ -62,9 +62,9 @@ from zmq.utils import jsonapi
 from volttron.platform.vip.agent import Agent, RPC
 from volttron.platform.agent import utils
 
-from driver import DriverAgent
-from driver_locks import configure_socket_lock, configure_publish_lock
-from interfaces import DriverInterfaceError
+from .driver import DriverAgent
+from .driver_locks import configure_socket_lock, configure_publish_lock
+from .interfaces import DriverInterfaceError
 
 utils.setup_logging()
 _log = logging.getLogger(__name__)
@@ -141,7 +141,7 @@ class SimulationDriverAgent(Agent):
 
                 if isinstance(values, dict):
                     self._override_patterns = set()
-                    for pattern, end_time in values.items():
+                    for pattern, end_time in list(values.items()):
                         # check the end_time
                         now = utils.get_aware_utc_now()
                         # If end time is indefinite, set override with indefinite duration
@@ -175,7 +175,7 @@ class SimulationDriverAgent(Agent):
             # Reset all scrape schedules
             self.freed_time_slots = []
             time_slot = 0
-            for driver in self.instances.itervalues():
+            for driver in list(self.instances.values()):
                 driver.update_scrape_schedule(time_slot, self.driver_scrape_interval)
                 time_slot += 1
 
@@ -186,7 +186,7 @@ class SimulationDriverAgent(Agent):
             _log.info("Stopping driver: {}".format(real_name))
             try:
                 driver.core.stop(timeout=5.0)
-            except StandardError as e:
+            except Exception as e:
                 _log.error("Failure during {} driver shutdown: {}".format(real_name, e))
             bisect.insort(self.freed_time_slots, driver.time_slot)
 
@@ -242,7 +242,7 @@ class SimulationDriverAgent(Agent):
     @RPC.export
     def heart_beat(self):
         _log.debug("sending heartbeat")
-        for device in self.instances.values():
+        for device in list(self.instances.values()):
             device.heart_beat()
 
     @RPC.export
@@ -276,7 +276,7 @@ class SimulationDriverAgent(Agent):
 
         # Add to override patterns set
         self._override_patterns.add(pattern)
-        device_topic_actual = self.instances.keys()
+        device_topic_actual = list(self.instances.keys())
         i = 0
 
         for name in device_topic_actual:
@@ -315,7 +315,7 @@ class SimulationDriverAgent(Agent):
 
     @RPC.export
     def clear_overrides(self):
-        for pattern, evt in self._override_interval_events.items():
+        for pattern, evt in list(self._override_interval_events.items()):
             if evt is not None:
                 evt[0].cancel()
         self._override_interval_events.clear()

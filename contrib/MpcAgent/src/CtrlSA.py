@@ -1,10 +1,10 @@
-import MPC
+from . import MPC
 import signal
 
 app = None
 
 def signal_handler(signal, frame):
-	print "Shutting down..."
+	print("Shutting down...")
 	app.set_stop()
 
 signal.signal(signal.SIGINT,signal_handler)

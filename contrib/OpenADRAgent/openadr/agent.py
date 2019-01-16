@@ -92,13 +92,13 @@ def OpenADRAgent(config_path, **kwargs):
                 'requesterID': agent_id
             }
 
-            for event_id, payload in updated.iteritems():
+            for event_id, payload in list(updated.items()):
                 event_data = self.build_event_info(payload)
                 self.publish_json(topics.OPENADR_EVENT, 
                         headers, 
                         event_data )
 
-            for event_id, payload in canceled.iteritems():
+            for event_id, payload in list(canceled.items()):
                 event_data = self.build_event_info(payload)
                 event_data['status'] = "cancelled"
                 self.publish_json(topics.OPENADR_EVENT, 
@@ -116,7 +116,7 @@ def OpenADRAgent(config_path, **kwargs):
             active_event = None
             active_events = event_db.get_active_events()
             
-            for event_id in active_events.iterkeys():
+            for event_id in list(active_events.keys()):
                 event_data = self.get_event(event_id)
                 
                 e_start = event.get_active_period_start(event_data).replace(tzinfo = pytz.utc)
@@ -136,7 +136,7 @@ def OpenADRAgent(config_path, **kwargs):
             if evt is not None:
                 evt = etree.XML(evt)
 
-            return evt;
+            return evt
         # --------------------- #
 
         def build_smap_event_status_object(self, status):

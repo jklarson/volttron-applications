@@ -446,7 +446,7 @@ class ReferenceAppAgent(Agent):
         except errors.Unreachable:
             _log.warning('\t\tSimulationClockAgent is not running')
             err = 'No clock'
-        except Exception, exc:
+        except Exception as exc:
             err = 'Exception during clock request = {}'.format(exc)
         return response, err
 
@@ -549,7 +549,7 @@ class ReferenceAppAgent(Agent):
         if events_list:
             for event_dict in events_list:
                 _log.debug('\tevent_id {}:'.format(event_dict.get('event_id')))
-                for k, v in event_dict.iteritems():
+                for k, v in event_dict.items():
                     _log.debug('\t\t{}={}'.format(k, v))
         else:
             _log.debug('\tNo active events')
@@ -624,7 +624,7 @@ class ReferenceAppAgent(Agent):
                 response = self.send_actuator_rpc('set_point', self.agent_id, '{}/{}'.format(driver_name, point_name), value)
             else:
                 response = self.send_driver_rpc('set_point', driver_name, point_name, value)
-        except Exception, exc:
+        except Exception as exc:
             err = 'Exception during set_point request = {}'.format(exc)
         return response, err
 

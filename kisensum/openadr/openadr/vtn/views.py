@@ -56,7 +56,6 @@
 # }}}
 
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 import csv
 from datetime import datetime, timedelta
@@ -606,8 +605,10 @@ def get_dr_event_details(request, pk):
             else:
                 sum_measured[datum['date_slice']] = datum['avg_measured_power_kw']
 
-        context['sum_baseline'] = OrderedDict(sorted(sum_baseline.items(), key=lambda t: t[0]))
-        context['sum_measured'] = OrderedDict(sorted(sum_measured.items(), key=lambda t: t[0]))
+        context['sum_baseline'] = OrderedDict(sorted(list(sum_baseline.items()),
+                                                     key=lambda t: t[0]))
+        context['sum_measured'] = OrderedDict(sorted(list(sum_measured.items()),
+                                                     key=lambda t: t[0]))
         context['no_data_for_sites'] = 'False'
 
         return render(request, 'vtn/dr_event_customer_detail.html', context)
@@ -704,8 +705,10 @@ class DREventDetail(TemplateView):
                 else:
                     sum_measured[datum['date_slice']] = datum['avg_measured_power_kw']
 
-            context['sum_baseline'] = OrderedDict(sorted(sum_baseline.items(), key=lambda t: t[0]))
-            context['sum_measured'] = OrderedDict(sorted(sum_measured.items(), key=lambda t: t[0]))
+            context['sum_baseline'] = OrderedDict(sorted(list(sum_baseline.items()),
+                                                         key=lambda t: t[0]))
+            context['sum_measured'] = OrderedDict(sorted(list(sum_measured.items()),
+                                                         key=lambda t: t[0]))
 
         return context
 

@@ -1,6 +1,6 @@
-import python_building
-import python_control
-import CBC_Gui
+from . import python_building
+from . import python_control
+from . import CBC_Gui
 import time
 
 # Scale the clock

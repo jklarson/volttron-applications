@@ -56,7 +56,6 @@
 # }}}
 
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from api.builders import *
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt

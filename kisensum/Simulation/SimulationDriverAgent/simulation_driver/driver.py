@@ -65,7 +65,7 @@ from volttron.platform.messaging.topics import (DRIVER_TOPIC_BASE,
 from volttron.platform.vip.agent import BasicAgent, Core
 from volttron.platform.vip.agent.errors import VIPError, Again
 
-from driver_locks import publish_lock
+from .driver_locks import publish_lock
 
 utils.setup_logging()
 _log = logging.getLogger(__name__)
@@ -216,7 +216,7 @@ class DriverAgent(BasicAgent):
             utcnow_string = utils.format_timestamp(utils.get_aware_utc_now())
             headers = {headers_mod.DATE: utcnow_string,
                        headers_mod.TIMESTAMP: utcnow_string, }
-            for point, value in results.iteritems():
+            for point, value in results.items():
                 depth_first_topic, breadth_first_topic = self.get_paths_for_point(point)
                 message = [value, self.meta_data[point]]
                 self._publish_wrapper(depth_first_topic, headers=headers, message=message)

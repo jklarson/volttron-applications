@@ -354,12 +354,14 @@ def cancel_schedules(request, test_agent):
 
     def cleanup():
         for schedule in cleanup_parameters:
-            print('Requesting cancel for task:', schedule['taskid'], 'from agent:', schedule['agentid'])
-            result = issue_actuator_rpc(test_agent, 'request_cancel_schedule', schedule['agentid'], schedule['taskid'])
+            print(('Requesting cancel for task:', schedule['taskid'],
+                   'from agent:', schedule['agentid']))
+            result = issue_actuator_rpc(test_agent, 'request_cancel_schedule',
+                                        schedule['agentid'], schedule['taskid'])
             # sleep so that the message is sent to pubsub before next
             gevent.sleep(1)
             # test monitors callback method calls
-            print ("result of cancel ", result)
+            print(("result of cancel ", result))
 
     cleanup_parameters = []
     request.addfinalizer(cleanup)

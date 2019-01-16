@@ -65,7 +65,7 @@ def scrape():
 	# Go through the file line by line updating the thermostat
 	# data as we go
 	for line in fileHandle:
-		words = split(line,",")
+		words = line.split(",")
 		count = count + 1
 		if len(words) > 12:
 			newData = Thermostat()
@@ -88,7 +88,8 @@ def scrape():
 			newData.lower_temp_limit = words[10]
 			newData.upper_temp_limit = words[12]
 			zoneInfo[newData.addr] = newData
-	print "Processed ",count," new lines in file ",fileHandle.name,fileHandle.tell()
+	print("Processed ",count," new lines in file ",fileHandle.name,
+		  fileHandle.tell())
 
 class cbc_archiver(driver.SmapDriver):
 	def setup(self, opts):
@@ -96,7 +97,7 @@ class cbc_archiver(driver.SmapDriver):
 		while len(zoneInfo) < 4:
 			scrape()
 		# Register a timeseries for each zone
-		print "Adding subjects..."
+		print("Adding subjects...")
 		self.add_timeseries(smapHeading+"/peak_power_reduction",'%',data_type='double',timezone='US/Eastern')
 		for data in zoneInfo.itervalues():
 			name = smapHeading+"/zone/"+data.addr
@@ -104,7 +105,7 @@ class cbc_archiver(driver.SmapDriver):
 			self.add_timeseries(name+'/mode', '', data_type='long', timezone='US/Eastern')
 			self.add_timeseries(name+'/lower_temp_limit', 'F', data_type='double', timezone='US/Eastern')
 			self.add_timeseries(name+'/upper_temp_limit', 'F', data_type='double', timezone='US/Eastern')
-		print "done!"
+		print("done!")
 	def start(self):
 		util.periodicSequentialCall(self.read).start(60)
 	def read(self):
@@ -116,7 +117,7 @@ class cbc_archiver(driver.SmapDriver):
 		would_operate = 0.0
 		max_operate = 0.0
 		peak_power_reduction = 0.0
-		for data in zoneInfo.itervalues():
+		for data in list(zoneInfo.values()):
 			max_operate = max_operate + 1.0
 			if data.mode != 0:
 				operating = operating+1.0
@@ -125,7 +126,7 @@ class cbc_archiver(driver.SmapDriver):
 			name = smapHeading+"/zone/"+data.addr
 			timestamp = time.mktime(time.strptime(data.timestamp,"%Y-%m-%d %H:%M:%S"))
 			self.add(name+'/temp',timestamp,float(data.temp))
-			self.add(name+'/mode',timestamp,long(data.mode))
+			self.add(name+'/mode',timestamp,int(data.mode))
 			self.add(name+'/lower_temp_limit',timestamp,float(data.lower_temp_limit))
 			self.add(name+'/upper_temp_limit',timestamp,float(data.upper_temp_limit))
 		if would_operate > 0.0:

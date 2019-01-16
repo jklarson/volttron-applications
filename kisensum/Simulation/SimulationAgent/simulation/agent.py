@@ -458,7 +458,7 @@ class SimulationAgent(Agent):
         except errors.Unreachable:
             _log.warning('\t\tSimulationDriverAgent is not running')
             err = 'No SimulationDriverAgent'
-        except Exception, exc:
+        except Exception as exc:
             err = 'Exception during set_point request = {}'.format(exc)
         return response, err
 
@@ -470,7 +470,7 @@ class SimulationAgent(Agent):
         except errors.Unreachable:
             _log.warning('\t\tSimulationClockAgent is not running')
             err = 'No clock'
-        except Exception, exc:
+        except Exception as exc:
             err = 'Exception during clock request = {}'.format(exc)
         return response, err
 

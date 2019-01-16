@@ -1,5 +1,3 @@
-
-from __future__ import absolute_import
 import logging
 import sys
 import json
@@ -112,7 +110,7 @@ def thermostat_agent(config_path, **kwargs):
             result = {}
             query = {}
             point_map_obj = {}
-            for point_name, properties in point_map.iteritems():
+            for point_name, properties in list(point_map.items()):
                 query = json.loads(self.thermostat.tstat())
                 if point_name in self.query_point_name:
                     try:
@@ -144,7 +142,7 @@ def thermostat_agent(config_path, **kwargs):
                 Set value of a point_name on a device
             '''
             result = {}
-            for point_name, properties in point_map.iteritems():
+            for point_name, properties in list(point_map.items()):
 
                 if point_name in self.program_name:
                     pgm,day = point_name.rsplit('_',1)
@@ -174,7 +172,7 @@ def thermostat_agent(config_path, **kwargs):
         @RPC.export
         def ping_thermostat(self,device):
             host = self.config['url_address']
-            print "Ping Thermostat agent!"
+            print("Ping Thermostat agent!")
 
 
     return ThermostatRelayAgent(identity=vip_identity, **kwargs)

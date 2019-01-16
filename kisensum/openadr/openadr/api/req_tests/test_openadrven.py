@@ -78,7 +78,7 @@ def agent(request, volttron_instance_module_web):
                                                           config_file=AGENT_CONFIG,
                                                           vip_identity='test_venagent',
                                                           start=True)
-    print('OpenADR agent id: ', agent_id)
+    print(('OpenADR agent id: ', agent_id))
 
     def stop():
         volttron_instance_module_web.stop_agent(agent_id)

@@ -30,10 +30,7 @@ except ImportError:
 
 
 Validate_simpletypes_ = True
-if sys.version_info.major == 2:
-    BaseStrType_ = basestring
-else:
-    BaseStrType_ = str
+BaseStrType_ = str
 
 
 def parsexml_(infile, parser=None, **kwargs):
@@ -382,7 +379,7 @@ except ImportError as exp:
             return None
         @classmethod
         def gds_reverse_node_mapping(cls, mapping):
-            return dict(((v, k) for k, v in mapping.iteritems()))
+            return dict(((v, k) for k, v in mapping.items()))
         @staticmethod
         def gds_encode(instring):
             if sys.version_info.major == 2:
@@ -393,7 +390,7 @@ except ImportError as exp:
         def convert_unicode(instring):
             if isinstance(instring, str):
                 result = quote_xml(instring)
-            elif sys.version_info.major == 2 and isinstance(instring, unicode):
+            elif sys.version_info.major == 2 and isinstance(instring, str):
                 result = quote_xml(instring).encode('utf8')
             else:
                 result = GeneratedsSuper.gds_encode(str(instring))
@@ -3455,7 +3452,7 @@ def parseEtree(inFileName, silence=False):
 
 def parseString(inString, silence=False):
     if sys.version_info.major == 2:
-        from StringIO import StringIO as IOBuffer
+        from io import StringIO as IOBuffer
     else:
         from io import BytesIO as IOBuffer
     parser = None

@@ -279,7 +279,7 @@ def driven_agent(config_path, **kwargs):
 
             if self._should_run_now() or missing_but_running:
                 field_names = {}
-                for point, data in self.device_values:
+                for point, data in self.device_values.items():
                     field_names[point] = data
                 if not converter.initialized and conversion_map is not None:
                     converter.setup_conversion_map(map_names, field_names)

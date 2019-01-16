@@ -150,9 +150,8 @@ def SMDSAgent(config_path, **kwargs):
         def on_temp_response(self, topic, headers, message, match):
             '''Method for dealing with temp data from smap'''
             if DEBUG:
-                print(("Topic: {topic}, Headers: {headers}, Message: {message}"
-                       .format(topic=topic, headers=headers,
-                                        message=message)))
+                print("Topic: {topic}, Headers: {headers}, Message: {message}"
+                      .format(topic=topic, headers=headers, message=message))
             
             self._raw_air_temp = message[0]
             self.go_if_ready()
@@ -162,8 +161,8 @@ def SMDSAgent(config_path, **kwargs):
         def on_unit_power(self, topic, headers, message, match):
             '''Method for dealing with power data from smap'''
             if DEBUG:
-                print(("Topic: {topic}, Headers: {headers}, Message: {message}"
-                       .format(topic=topic, headers=headers, message=message)))
+                print("Topic: {topic}, Headers: {headers}, Message: {message}"
+                      .format(topic=topic, headers=headers, message=message))
             self._raw_unit_power = message[0]
             self.go_if_ready()
             
@@ -172,8 +171,8 @@ def SMDSAgent(config_path, **kwargs):
         def on_fan_speed(self, topic, headers, message, match):
             '''Method for dealing with fan data from smap'''
             if DEBUG:
-                print(("Topic: {topic}, Headers: {headers}, Message: {message}"
-                      .format(topic=topic, headers=headers, message=message)))
+                print("Topic: {topic}, Headers: {headers}, Message: {message}"
+                      .format(topic=topic, headers=headers, message=message))
             self._raw_fan_speed = message[0]
             self.go_if_ready()
             
@@ -263,13 +262,13 @@ def SMDSAgent(config_path, **kwargs):
             #Print a readable time range
             start = self._last_update.strftime(readable_format)
             end = (self._query_end_time).strftime(readable_format)
-            print(('({start}, {end})'.format(start=start, end=end)))
+            print('({start}, {end})'.format(start=start, end=end))
             
             start = self._last_update.strftime(date_format)
             end = (self._query_end_time).strftime(date_format)
     
             if DEBUG:
-                print(('({start}, {end})'.format(start=start, end=end)))
+                print('({start}, {end})'.format(start=start, end=end))
             
             headers = {headers_mod.FROM: agent_id, headers_mod.TO: 'ArchiverAgent'}
             
@@ -292,7 +291,7 @@ def SMDSAgent(config_path, **kwargs):
                     response = requests.post(self._service_url, data=post_data, headers=headers_post)
                     done = True
                 except ConnectionError as e:
-                    print(('{}: {}: {}'.format(str(tries), str(e), post_data)))
+                    print('{}: {}: {}'.format(str(tries), str(e), post_data))
                     tries += 1
                 
             worked = False

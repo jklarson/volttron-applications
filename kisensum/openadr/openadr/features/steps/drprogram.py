@@ -154,7 +154,7 @@ def step_impl(context, dr_program_name, name, site_name):
     assert br.current_url.endswith('/admin/vtn/drprogram/') != -1
 
     try:
-        print((br.find_element_by_link_text(dr_program_name)))
+        print(br.find_element_by_link_text(dr_program_name))
         raise AssertionError("Could not delete dr_program.")
     except NoSuchElementException:
         pass
@@ -163,7 +163,7 @@ def step_impl(context, dr_program_name, name, site_name):
     br.find_element_by_link_text("DR Events").click()
     assert br.current_url.endswith('/admin/vtn/drevent/') != -1
     try:
-        print((br.find_element_by_link_text(dr_program_name)))
+        print(br.find_element_by_link_text(dr_program_name))
         raise AssertionError("Could not delete dr_program.")
     except NoSuchElementException:
         pass

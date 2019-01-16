@@ -129,7 +129,7 @@ class ModelNode(Agent):
 
     ##Subsribe to leader channel heartbeat
     ##Executes everytime a master agent pulses its hearbeat to bus
-    @ PubSub.subscribe('pubsub', 'leader')
+    @PubSub.subscribe('pubsub', 'leader')
     def leader_check(self, peer, sender, bus, topic, headers, message):
         if len(self.leader) < self.numNodes:
             # First time adding the leaders in the list

@@ -72,10 +72,10 @@ def step_impl(context,  dr_program_name, name, site_name, noti_date, noti_time, 
 
     br.find_element_by_link_text('Add DR Event').click()
     assert br.current_url.endswith('/vtn/dr_event/') != -1
-    print((br.find_element_by_name("sites").get_attribute('value')))
+    print(br.find_element_by_name("sites").get_attribute('value'))
 
     br.find_element_by_name("dr_program").send_keys(dr_program_name)
-    time.sleep(5);
+    time.sleep(5)
     br.find_element_by_name("sites").send_keys(site_name)
 
     # Clear existing values
@@ -105,10 +105,10 @@ def step_impl(context,  dr_program_name, name, noti_date, noti_time, start_date,
 
     br.find_element_by_link_text('Add DR Event').click()
     assert br.current_url.endswith('/vtn/dr_event/') != -1
-    print((br.find_element_by_name("sites").get_attribute('value')))
+    print(br.find_element_by_name("sites").get_attribute('value'))
 
     br.find_element_by_name("dr_program").send_keys(dr_program_name)
-    time.sleep(5);
+    time.sleep(5)
 
     # Clear existing values
     br.find_element_by_name("scheduled_notification_time_0").clear()
@@ -129,8 +129,8 @@ def step_impl(context,  dr_program_name, name, noti_date, noti_time, start_date,
 
     # how to figure out which DR Event was just created?
 
-    print(("There are {} DR Events".format(str(DREvent.objects.filter(
-        dr_program__name="dr_program_test").count()))))
+    print("There are {} DR Events".format(str(DREvent.objects.filter(
+        dr_program__name="dr_program_test").count())))
 
     context.execute_steps('''then I am redirected to the home page''')
 

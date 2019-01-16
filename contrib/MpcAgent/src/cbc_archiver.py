@@ -88,8 +88,8 @@ def scrape():
 			newData.lower_temp_limit = words[10]
 			newData.upper_temp_limit = words[12]
 			zoneInfo[newData.addr] = newData
-	print("Processed ",count," new lines in file ",fileHandle.name,
-		  fileHandle.tell())
+	print(("Processed ",count," new lines in file ",fileHandle.name,
+		   fileHandle.tell()))
 
 class cbc_archiver(driver.SmapDriver):
 	def setup(self, opts):
@@ -99,7 +99,7 @@ class cbc_archiver(driver.SmapDriver):
 		# Register a timeseries for each zone
 		print("Adding subjects...")
 		self.add_timeseries(smapHeading+"/peak_power_reduction",'%',data_type='double',timezone='US/Eastern')
-		for data in zoneInfo.itervalues():
+		for data in list(zoneInfo.values()):
 			name = smapHeading+"/zone/"+data.addr
 			self.add_timeseries(name+'/temp', 'F', data_type='double', timezone='US/Eastern')
 			self.add_timeseries(name+'/mode', '', data_type='long', timezone='US/Eastern')
